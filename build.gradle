@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+
+    def springVersion = "3.2.0.RELEASE"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
+    compile 'log4j:log4j:1.2.17'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile "org.springframework:spring-test:$springVersion"
+
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'org.aspectj:aspectjweaver:1.6.11'
+}
+processResources {
+    destinationDir = sourceSets.main.output.classesDir
+}
+processTestResources {
+    destinationDir = sourceSets.test.output.classesDir
+}
+idea {
+    module {
+        downloadSources = false
+        downloadJavadoc = false
+        excludeDirs += [file('.idea'), file('.gradle'), file('gradle')]
+        outputDir = sourceSets.main.output.classesDir
+        testOutputDir = sourceSets.test.output.classesDir
+    }
+}
